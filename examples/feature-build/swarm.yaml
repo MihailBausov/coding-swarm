@@ -7,16 +7,19 @@ project:
 
 agents:
   - role: generalist
+    provider: anthropic
     count: 4
     model: claude-opus-4-20250514
-  
+
   - role: optimizer
+    provider: gemini
     count: 1
-    model: claude-opus-4-20250514
-    
+    model: gemini-2.5-pro
+
   - role: test-writer
+    provider: openai
     count: 2
-    model: claude-opus-4-20250514
+    model: o3
 
 docker:
   image: coding-swarm:latest

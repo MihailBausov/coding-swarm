@@ -1,5 +1,9 @@
 # Coding Swarm Configuration
 # See docs/OVERVIEW.md for details.
+#
+# Supported providers: anthropic, gemini, openai
+# Each agent can specify its own provider and model.
+# If model is omitted, a sensible default is used per provider.
 
 project:
   name: my-project
@@ -13,28 +17,35 @@ project:
 
 agents:
   - role: generalist
+    provider: anthropic          # anthropic | gemini | openai
     prompt: agents/prompts/GENERALIST.md
-    model: claude-opus-4-20250514
+    # model: claude-opus-4-20250514  (default for anthropic)
     count: 3
 
   - role: code-reviewer
+    provider: gemini
     prompt: agents/prompts/CODE-REVIEWER.md
-    model: claude-opus-4-20250514
+    # model: gemini-2.5-pro          (default for gemini)
     count: 1
 
   - role: test-writer
+    provider: openai
     prompt: agents/prompts/TEST-WRITER.md
-    model: claude-opus-4-20250514
+    # model: o3                      (default for openai)
     count: 1
 
   - role: optimizer
+    provider: anthropic
     prompt: agents/prompts/OPTIMIZER.md
-    model: claude-opus-4-20250514
     count: 1
 
 docker:
   image: coding-swarm:latest
-  api_key_env: ANTHROPIC_API_KEY
+  # Map of provider → env var name holding the API key:
+  api_keys:
+    anthropic: ANTHROPIC_API_KEY
+    gemini: GEMINI_API_KEY
+    openai: OPENAI_API_KEY
   # Extra environment variables passed to every container:
   extra_env: {}
   # Host paths to mount into containers (host_path: container_path):

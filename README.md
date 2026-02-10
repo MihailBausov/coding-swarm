@@ -4,6 +4,14 @@
 
 Inspired by [Anthropic's approach to building a C compiler with agent teams](https://www.anthropic.com/engineering/building-c-compiler), Coding Swarm lets you spin up N isolated AI agents that work on your project simultaneously — each in its own Docker container, coordinating through git.
 
+**Supports multiple AI providers** — mix and match within the same swarm:
+
+| Provider | CLI Tool | Default Model | API Key Env Var |
+|----------|----------|---------------|-----------|
+| Anthropic | `claude` | `claude-opus-4-20250514` | `ANTHROPIC_API_KEY` |
+| Google Gemini | `gemini` | `gemini-2.5-pro` | `GEMINI_API_KEY` |
+| OpenAI | `codex` | `o3` | `OPENAI_API_KEY` |
+
 ---
 
 ## How It Works
@@ -45,10 +53,13 @@ swarm init
 # Edit swarm.yaml to configure your agents
 ```
 
-### 3. Set your API key
+### 3. Set your API key(s)
 
 ```bash
+# Set at least one — or all three for mixed-provider swarms
 export ANTHROPIC_API_KEY=sk-ant-...
+export GEMINI_API_KEY=...
+export OPENAI_API_KEY=sk-...
 ```
 
 ### 4. Build the agent container
@@ -101,19 +112,24 @@ project:
 
 agents:
   - role: generalist
+    provider: anthropic          # anthropic | gemini | openai
     prompt: agents/prompts/GENERALIST.md
-    model: claude-opus-4-20250514
     count: 3
   - role: code-reviewer
+    provider: gemini
     prompt: agents/prompts/CODE-REVIEWER.md
     count: 1
   - role: test-writer
+    provider: openai
     prompt: agents/prompts/TEST-WRITER.md
     count: 1
 
 docker:
   image: coding-swarm:latest
-  api_key_env: ANTHROPIC_API_KEY
+  api_keys:
+    anthropic: ANTHROPIC_API_KEY
+    gemini: GEMINI_API_KEY
+    openai: OPENAI_API_KEY
 ```
 
 ## Agent Roles

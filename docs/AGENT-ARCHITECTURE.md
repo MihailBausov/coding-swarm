@@ -43,7 +43,10 @@ Each container runs `scripts/harness.sh` in an infinite loop:
 │  │     - Read PROGRESS.md       │  │
 │  │     - List current_tasks/    │  │
 │  │     - Recent git log         │  │
-│  │  3. Run claude CLI           │  │
+│  │  3. Dispatch to AI provider  │  │
+│  │     → claude (anthropic)     │  │
+│  │     → gemini (gemini)        │  │
+│  │     → codex  (openai)        │  │
 │  │  4. git add + commit         │  │
 │  │  5. git push to /upstream    │  │
 │  │  6. Sleep 5s                 │  │

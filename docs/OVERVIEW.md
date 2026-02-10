@@ -32,6 +32,7 @@ This framework generalises Anthropic's approach so you can apply it to **any pro
 | No monitoring | Built-in dashboard and log viewer |
 | Custom bash scripts | Reusable harness + entrypoint |
 | One set of prompts | Pluggable prompt templates per role |
+| Single AI provider (Claude) | Multi-provider: Anthropic, Gemini, OpenAI |
 
 ## When to Use This
 
