@@ -1,0 +1,41 @@
+# Coding Swarm Configuration
+# See docs/OVERVIEW.md for details.
+
+project:
+  name: my-project
+  # Either a remote URL to clone, or a local path to an existing repo:
+  repo_url: ""
+  repo_path: "."
+  branch: main
+  # Command the agents run to verify their changes:
+  test_command: "make test"
+  description: "Describe your project goals here"
+
+agents:
+  - role: generalist
+    prompt: agents/prompts/GENERALIST.md
+    model: claude-opus-4-20250514
+    count: 3
+
+  - role: code-reviewer
+    prompt: agents/prompts/CODE-REVIEWER.md
+    model: claude-opus-4-20250514
+    count: 1
+
+  - role: test-writer
+    prompt: agents/prompts/TEST-WRITER.md
+    model: claude-opus-4-20250514
+    count: 1
+
+  - role: optimizer
+    prompt: agents/prompts/OPTIMIZER.md
+    model: claude-opus-4-20250514
+    count: 1
+
+docker:
+  image: coding-swarm:latest
+  api_key_env: ANTHROPIC_API_KEY
+  # Extra environment variables passed to every container:
+  extra_env: {}
+  # Host paths to mount into containers (host_path: container_path):
+  volumes: {}
