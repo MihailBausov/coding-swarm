@@ -9,11 +9,14 @@
 # Environment variables (set by the orchestrator):
 #   AGENT_ID          — unique identifier for this agent instance
 #   AGENT_MODEL       — model to use (e.g. claude-opus-4-20250514)
+#   AGENT_PROVIDER    — AI provider: anthropic | gemini | openai
 #   AGENT_PROMPT_FILE — path to the agent's prompt markdown file
 #   AGENT_ROLE        — role name (generalist, code-reviewer, etc.)
 #   BRANCH            — git branch to work on (default: main)
 #   TEST_COMMAND      — command to run for verification
-#   ANTHROPIC_API_KEY — API key for the AI backend
+#   ANTHROPIC_API_KEY — API key for Anthropic (Claude)
+#   GEMINI_API_KEY    — API key for Google (Gemini)
+#   OPENAI_API_KEY    — API key for OpenAI (Codex)
 # =============================================================================
 
 set -euo pipefail
@@ -26,6 +29,7 @@ UPSTREAM="/upstream"
 WORKSPACE="/workspace"
 BRANCH="${BRANCH:-main}"
 AGENT_ID="${AGENT_ID:-agent-0}"
+AGENT_PROVIDER="${AGENT_PROVIDER:-anthropic}"
 AGENT_MODEL="${AGENT_MODEL:-claude-opus-4-20250514}"
 AGENT_PROMPT_FILE="${AGENT_PROMPT_FILE:-/prompts/GENERALIST.md}"
 LOG_DIR="/logs"
@@ -158,14 +162,58 @@ $(cd ${WORKSPACE} && git log --oneline -5 2>/dev/null || echo "(no commits yet)"
 }
 
 # ---------------------------------------------------------------------------
+# Run the AI agent (provider dispatch)
+# ---------------------------------------------------------------------------
+
+run_agent() {
+    local prompt="$1"
+    local logfile="$2"
+
+    case "$AGENT_PROVIDER" in
+        anthropic)
+            claude --dangerously-skip-permissions \
+                -p "$prompt" \
+                --model "$AGENT_MODEL" \
+                2>&1 | tee "$logfile" || {
+                    log "⚠️  Claude session ended with error. Continuing ..."
+                }
+            ;;
+        gemini)
+            gemini -p "$prompt" \
+                --model "$AGENT_MODEL" \
+                --sandbox \
+                2>&1 | tee "$logfile" || {
+                    log "⚠️  Gemini session ended with error. Continuing ..."
+                }
+            ;;
+        openai)
+            codex --full-auto \
+                -p "$prompt" \
+                --model "$AGENT_MODEL" \
+                2>&1 | tee "$logfile" || {
+                    log "⚠️  Codex session ended with error. Continuing ..."
+                }
+            ;;
+        *)
+            log "❌ Unknown provider: $AGENT_PROVIDER. Defaulting to anthropic."
+            claude --dangerously-skip-permissions \
+                -p "$prompt" \
+                --model "$AGENT_MODEL" \
+                2>&1 | tee "$logfile" || true
+            ;;
+    esac
+}
+
+# ---------------------------------------------------------------------------
 # Main loop
 # ---------------------------------------------------------------------------
 
 main() {
     log "============================================"
     log "  🐝 Coding Swarm Agent — ${AGENT_ID}"
-    log "     Role:  ${AGENT_ROLE:-generalist}"
-    log "     Model: ${AGENT_MODEL}"
+    log "     Role:     ${AGENT_ROLE:-generalist}"
+    log "     Provider: ${AGENT_PROVIDER}"
+    log "     Model:    ${AGENT_MODEL}"
     log "============================================"
 
     mkdir -p "$LOG_DIR"
@@ -192,16 +240,10 @@ main() {
         COMMIT_HASH=$(git rev-parse --short=6 HEAD)
         local LOGFILE="${LOG_DIR}/${AGENT_ID}_${COMMIT_HASH}_$(date -u '+%H%M%S').log"
 
-        log "Starting Claude session (commit: ${COMMIT_HASH}) ..."
+        log "Starting AI session (provider: ${AGENT_PROVIDER}, commit: ${COMMIT_HASH}) ..."
 
-        # Run the AI agent
-        # claude CLI with --dangerously-skip-permissions for autonomous mode
-        claude --dangerously-skip-permissions \
-            -p "$PROMPT" \
-            --model "$AGENT_MODEL" \
-            2>&1 | tee "$LOGFILE" || {
-                log "⚠️  Claude session ended with error. Continuing ..."
-            }
+        # Run the AI agent via provider dispatch
+        run_agent "$PROMPT" "$LOGFILE"
 
         log "Session complete. Syncing changes ..."
 

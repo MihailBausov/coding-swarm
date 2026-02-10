@@ -10,9 +10,10 @@ set -euo pipefail
 AGENT_ID="${AGENT_ID:-agent-0}"
 
 echo "🐝 Swarm agent container starting ..."
-echo "   Agent: ${AGENT_ID}"
-echo "   Role:  ${AGENT_ROLE:-generalist}"
-echo "   Model: ${AGENT_MODEL:-claude-opus-4-20250514}"
+echo "   Agent:    ${AGENT_ID}"
+echo "   Role:     ${AGENT_ROLE:-generalist}"
+echo "   Provider: ${AGENT_PROVIDER:-anthropic}"
+echo "   Model:    ${AGENT_MODEL:-claude-opus-4-20250514}"
 
 # ---------------------------------------------------------------------------
 # Git config

@@ -31,12 +31,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     npm \
     && rm -rf /var/lib/apt/lists/*
 
-# ---- Claude Code CLI -------------------------------------------------------
-# Install Claude Code CLI via npm.
-# If you use a different AI backend, replace this with your preferred CLI.
+# ---- AI CLI tools ----------------------------------------------------------
+# Install all three provider CLIs via npm.
+# The harness dispatches to the correct one based on AGENT_PROVIDER.
 
 RUN npm install -g @anthropic-ai/claude-code 2>/dev/null || \
-    echo "⚠️  Claude Code CLI not available via npm. Install manually."
+    echo "⚠️  Claude Code CLI not available via npm."
+
+RUN npm install -g @google/gemini-cli 2>/dev/null || \
+    echo "⚠️  Gemini CLI not available via npm."
+
+RUN npm install -g @openai/codex 2>/dev/null || \
+    echo "⚠️  OpenAI Codex CLI not available via npm."
 
 # ---- Working directories ----------------------------------------------------
 
@@ -56,6 +62,7 @@ COPY agents/prompts/ /prompts/
 
 ENV AGENT_ID="agent-0"
 ENV AGENT_ROLE="generalist"
+ENV AGENT_PROVIDER="anthropic"
 ENV AGENT_MODEL="claude-opus-4-20250514"
 ENV AGENT_PROMPT_FILE="/prompts/GENERALIST.md"
 ENV BRANCH="main"

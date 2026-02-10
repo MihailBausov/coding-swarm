@@ -9,10 +9,8 @@ from __future__ import annotations
 
 import os
 import subprocess
-import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 from .config import AgentConfig, SwarmConfig
 from .sync import init_upstream_repo, seed_project_files
@@ -90,11 +88,14 @@ class SwarmOrchestrator:
         """Build the -e flags for docker run."""
         env_args: list[str] = []
 
-        # API key
-        api_key_var = self.config.docker.api_key_env
-        api_key = os.environ.get(api_key_var, "")
-        if api_key:
-            env_args += ["-e", f"{api_key_var}={api_key}"]
+        # Pass all provider API keys so mixed swarms work
+        for provider, env_var in self.config.docker.api_keys.items():
+            api_key = os.environ.get(env_var, "")
+            if api_key:
+                env_args += ["-e", f"{env_var}={api_key}"]
+
+        # Provider
+        env_args += ["-e", f"AGENT_PROVIDER={agent_cfg.provider}"]
 
         # Model
         env_args += ["-e", f"AGENT_MODEL={agent_cfg.model}"]
@@ -170,7 +171,6 @@ class SwarmOrchestrator:
                 # Read the prompt file and pass it as AGENT_PROMPT env var
                 prompt_path = self.work_dir / agent_cfg.prompt
                 if prompt_path.exists():
-                    prompt_text = prompt_path.read_text()
                     env_args += ["-e", f"AGENT_PROMPT_FILE=/prompts/{prompt_path.name}"]
                     vol_args += ["-v", f"{prompt_path.parent}:/prompts:ro"]
 

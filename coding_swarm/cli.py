@@ -80,7 +80,7 @@ def launch(config: str, dry_run: bool) -> None:
         for agent in cfg.agents:
             for i in range(agent.count):
                 click.echo(
-                    f"   🤖 {agent.role}-{i}  model={agent.model}  prompt={agent.prompt}"
+                    f"   🤖 {agent.role}-{i}  provider={agent.provider}  model={agent.model}  prompt={agent.prompt}"
                 )
                 total += 1
         click.echo(f"\n   Total: {total} agent(s)")
