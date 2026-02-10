@@ -1,0 +1,18 @@
+project:
+  name: simple-refactor
+  description: "Refactor a legacy module to modern standards"
+  repo_path: "."
+  branch: refactor/legacy-module
+  test_command: "pytest tests/test_legacy.py"
+
+agents:
+  - role: code-reviewer
+    count: 2
+    model: claude-opus-4-20250514
+  
+  - role: test-writer
+    count: 1
+    model: claude-opus-4-20250514
+
+docker:
+  image: coding-swarm:latest

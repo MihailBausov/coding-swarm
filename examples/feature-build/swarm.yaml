@@ -1,0 +1,22 @@
+project:
+  name: feature-build
+  description: "Implement a new feature from scratch"
+  repo_path: "."
+  branch: feature/new-login-flow
+  test_command: "npm test"
+
+agents:
+  - role: generalist
+    count: 4
+    model: claude-opus-4-20250514
+  
+  - role: optimizer
+    count: 1
+    model: claude-opus-4-20250514
+    
+  - role: test-writer
+    count: 2
+    model: claude-opus-4-20250514
+
+docker:
+  image: coding-swarm:latest
