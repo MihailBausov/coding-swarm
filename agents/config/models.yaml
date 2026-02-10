@@ -1,0 +1,28 @@
+# Model Presets
+# Reference for configuring agents in swarm.yaml
+
+models:
+  claude-opus-4-20250514:
+    provider: anthropic
+    context_window: 200000
+    description: "Best for complex reasoning and large refactors"
+    
+  claude-sonnet-4-20250514:
+    provider: anthropic
+    context_window: 200000
+    description: "Faster, cheaper, good for smaller tasks and tests"
+
+  claude-haiku-4-20250514:
+    provider: anthropic
+    context_window: 200000
+    description: "Fastest, ideal for simple fixes or triaging"
+
+# Tool Configurations
+tools:
+  bash:
+    enabled: true
+    timeout: 300
+    
+  git:
+    enabled: true
+    user_name: "swarm-agent"
