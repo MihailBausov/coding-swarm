@@ -1,0 +1,50 @@
+---
+name: Bug Report
+about: Create a report to help us improve
+title: ''
+labels: bug
+assignees: ''
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: I expected the agent to... but instead it...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Initialize swarm with `swarm init`
+        2. Set config to ...
+        3. Run `swarm launch`
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Which version of coding-swarm are you using?
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Paste any relevant logs or output.
+      render: shell
